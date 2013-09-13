@@ -1,107 +1,13 @@
 // YarkoTest.cpp : Defines the entry point for the console application.
 //
 
+
 #include "stdafx.h"
 #include <assert.h>
-typedef enum {
-    LessThan = 0,
-    LessThanEquals = 1,
-    Equals = 2,
-    GreaterThanEquals = 3,
-    GreaterThan = 4
-} SearchType;
- 
-typedef enum {
-    NotFound,
-    FoundExact,
-    FoundGreater,
-    FoundLess
-} SearchResult;
+#include <time.h>
+#include "Search1.h"
+#include "Search2.h"
 
-SearchResult Search(
-    const int * const items,
-    const int n_items,
-    const int ascending,
-    const int key,
-    const SearchType type,
-    int* const index)
-{
-	// Check if type is correct
-
-	int foundPos = -1;
-	int i = ascending > 0 ? 0 : n_items - 1;
-	int increment = ascending > 0 ? 1 : -1;
-	int stopPos = ascending > 0 ? n_items : -1;
-	SearchResult result = NotFound;
-
-	while (i != stopPos)
-	{
-		switch (type)
-		{
-			case LessThan:
-			{
-				if (items[i] < key && ( foundPos == -1 || items[i] > items[foundPos]))
-					foundPos = i;
-				break;
-			}
-			case LessThanEquals:
-			{
-				if (items[i] == key)
-				{
-					foundPos = i;
-					result = FoundExact;
-					goto exit;
-				}
-				if (items[i] < key && ( foundPos == -1 || items[i] > items[foundPos]))
-					foundPos = i;
-				break;
-			}
-			case Equals:
-			{
-				if (items[i] == key)
-				{
-					foundPos = i;
-					result = FoundExact;
-					goto exit;
-				}
-				break;
-			}
-			case GreaterThan:
-			{
-				if (items[i] > key && ( foundPos == -1 || items[i] < items[foundPos]))
-					foundPos = i;
-				break;
-			}
-			case GreaterThanEquals:
-			{
-				if (items[i] == key)
-				{
-					foundPos = i;
-					result = FoundExact;
-					goto exit;
-				}
-				if (items[i] > key && ( foundPos == -1 || items[i] < items[foundPos]))
-					foundPos = i;
-				break;
-			}
-		}
-
-		i += increment;
-	}
-
-exit:
-	if ( foundPos == -1)
-	    return NotFound;
-
-	*index = foundPos;
-
-	if ( result == FoundExact )
-		return result;
-	else if ( type == LessThan || type == LessThanEquals )
-		return FoundLess;
-	else
-		return FoundGreater;
-}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -110,6 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	int index = -1;
 
+/*
 	assert(Search(test1, sizeof(test1)/sizeof(test1[0]), 1, -1, LessThanEquals, &index) == NotFound);
 	assert(Search(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, LessThan, &index) == NotFound);
 	assert(Search(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, Equals, &index) == FoundExact && index == 0);
@@ -123,7 +30,49 @@ int _tmain(int argc, _TCHAR* argv[])
 	assert(Search(test2, sizeof(test2)/sizeof(test2[0]), 0, 5, GreaterThanEquals, &index) == FoundGreater && index == 1);
 	assert(Search(test2, sizeof(test2)/sizeof(test2[0]), 0, 2, GreaterThanEquals, &index) == FoundExact && index == 3);
 	assert(Search(test2, sizeof(test2)/sizeof(test2[0]), 0, 9, GreaterThan, &index) == NotFound);
+*/
+
+	const int cnCount = 10000000;
+	int* test3 = new int[cnCount];
+	for (int i=0; i<cnCount; i++)
+		test3[i] = i;
+
+	clock_t t, tsum = 0;
+	int tmp;
+
+	const int cnIter = 1;
+	for (int i=0; i<cnIter; i++)
+	{
+		t = clock();
+// 		for (int i=0; i<cnCount/2; i++)
+// 		{
+// 			if ( test3[i] == 0 )
+// 				tmp = 1;
+// 			else 
+// 				tmp = 2;
+// 		}
+// 		assert(Search(test3, cnCount, 1, 5000000, GreaterThan, &index) == FoundGreater && index == 5000001);
+// 		assert(Search(test3, cnCount, 1, 5000000, GreaterThanEquals, &index) == FoundExact && index == 5000000);
+// 		assert(Search(test3, cnCount, 1, 5000000, LessThan, &index) == FoundLess && index == 4999999);
+ 		Search1(test3, cnCount, 1, 5000000, GreaterThan, &index);
+// 		Search1(test3, cnCount, 1, 5000000, GreaterThanEquals, &index);
+// 		Search1(test3, cnCount, 1, 5000000, LessThan, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search1 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search2(test3, cnCount, 1, 5000000, GreaterThan, &index);
+// 		Search2(test3, cnCount, 1, 5000000, GreaterThanEquals, &index);
+// 		Search2(test3, cnCount, 1, 5000000, LessThan, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search2 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+	}
+	delete[] test3;
+//	printf ("Average for %d iterations is %f clicks (%f seconds).\n",cnIter, (float)tsum/cnIter, ((float)tsum/cnIter)/CLOCKS_PER_SEC);
+
+	printf("OK\n");
 
 	return 0;
 }
-
