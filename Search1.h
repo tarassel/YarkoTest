@@ -1,3 +1,4 @@
+#pragma once
 #include "Common.h"
 
 // Iterate from start to end and compare all values

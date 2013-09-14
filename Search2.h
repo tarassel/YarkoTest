@@ -1,3 +1,4 @@
+#pragma once
 #include "Common.h"
 
 // If ( asc and < ) or (des and > ) then go forward and stop at first non true
