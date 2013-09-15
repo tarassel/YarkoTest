@@ -83,6 +83,23 @@ bool Compare(int item, int key, SearchType type, SearchResult& result, bool& bSt
 	return bRes;
 }
 
+void SetStartingPosition(int ascending, SearchType type, int n_items, int& i, int& increment, int& stopPos)
+{
+	if ( ( ( ascending > 0 ) && (type == LessThan || type == LessThanEquals) ) ||
+		 ( ( ascending == 0 ) && (type == GreaterThan || type == GreaterThanEquals) ) )
+	{
+		i = 0;
+		increment = 1;
+		stopPos = n_items;
+	}
+	else
+	{
+		i = n_items - 1;
+		increment = -1;
+		stopPos = -1;
+	}
+}
+
 // If ( asc and < ) or (des and > ) then go forward and stop at first non true
 // Else go backward, ( asc and > ) or (des and < )
 SearchResult Search3(
@@ -99,21 +116,9 @@ SearchResult Search3(
 	bool bStop = false;
 	int foundPosLast = -1;
 	int i, increment, stopPos;
-
-	if ( ( ( ascending > 0 ) && (type == LessThan || type == LessThanEquals) ) ||
-		 ( ( ascending == 0 ) && (type == GreaterThan || type == GreaterThanEquals) ) )
-	{
-		i = 0;
-		increment = 1;
-		stopPos = n_items;
-	}
-	else
-	{
-		i = n_items - 1;
-		increment = -1;
-		stopPos = -1;
-	}
 	SearchResult result = NotFound;
+
+	SetStartingPosition(ascending, type, n_items, i, increment, stopPos);
 
 	while (i != stopPos && !bStop)
 	{
