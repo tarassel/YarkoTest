@@ -7,37 +7,54 @@
 #include <time.h>
 #include "Search1.h"
 #include "Search2.h"
+#include "Search3.h"
+#include "Search4.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int index = -1;
-	const int cnCount = 10000000;
+	const int cnCount = 100000000;
 	int* test3 = new int[cnCount];
 	for (int i=0; i<cnCount; i++)
 		test3[i] = i;
 
 	clock_t t, tsum = 0;
-	int tmp;
 
 	const int cnIter = 1;
 	for (int i=0; i<cnIter; i++)
 	{
 		t = clock();
- 		Search1(test3, cnCount, 1, 5000000, GreaterThan, &index);
-// 		Search1(test3, cnCount, 1, 5000000, GreaterThanEquals, &index);
-// 		Search1(test3, cnCount, 1, 5000000, LessThan, &index);
+ 		Search1(test3, cnCount, 1, 50000000, GreaterThan, &index);
+// 		Search1(test3, cnCount, 1, 50000000, GreaterThanEquals, &index);
+// 		Search1(test3, cnCount, 1, 50000000, LessThan, &index);
 		t = clock() - t;
 		tsum += t;
 		printf ("Search1 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
 		t = clock();
-		Search2(test3, cnCount, 1, 5000000, GreaterThan, &index);
-// 		Search2(test3, cnCount, 1, 5000000, GreaterThanEquals, &index);
-// 		Search2(test3, cnCount, 1, 5000000, LessThan, &index);
+		Search2(test3, cnCount, 1, 50000000, GreaterThan, &index);
+// 		Search2(test3, cnCount, 1, 50000000, GreaterThanEquals, &index);
+// 		Search2(test3, cnCount, 1, 50000000, LessThan, &index);
 		t = clock() - t;
 		tsum += t;
 		printf ("Search2 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search3(test3, cnCount, 1, 50000000, GreaterThan, &index);
+// 		Search3(test3, cnCount, 1, 50000000, GreaterThanEquals, &index);
+// 		Search3(test3, cnCount, 1, 50000000, LessThan, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search3 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search4(test3, cnCount, 1, 50000000, GreaterThan, &index);
+// 		Search4(test3, cnCount, 1, 50000000, GreaterThanEquals, &index);
+// 		Search4(test3, cnCount, 1, 50000000, LessThan, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search4 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 	}
 	delete[] test3;
 //	printf ("Average for %d iterations is %f clicks (%f seconds).\n",cnIter, (float)tsum/cnIter, ((float)tsum/cnIter)/CLOCKS_PER_SEC);

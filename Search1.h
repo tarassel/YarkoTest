@@ -2,6 +2,7 @@
 #include "Common.h"
 
 // Iterate from start to end and compare all values
+
 SearchResult Search1(
 	const int * const items,
 	const int n_items,

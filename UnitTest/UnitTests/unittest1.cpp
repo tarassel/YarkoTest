@@ -176,6 +176,159 @@ namespace UnitTests
 			int index = -1;
 			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 9, GreaterThan, &index), NotFound);
 		}
+	};
+
+	TEST_CLASS(Search3Test)
+	{
+	public:
+		
+		TEST_METHOD(Search3Test1)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, -1, LessThanEquals, &index), NotFound);
+		}
+		TEST_METHOD(Search3Test2)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, LessThan, &index), NotFound);
+		}
+		TEST_METHOD(Search3Test3)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, Equals, &index), FoundExact);
+			Assert::AreEqual(index, 0);
+		}
+		TEST_METHOD(Search3Test4)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 1, Equals, &index), NotFound);
+		}
+		TEST_METHOD(Search3Test5)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 2, GreaterThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 1);
+		}
+		TEST_METHOD(Search3Test6)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 2, GreaterThan, &index), FoundGreater);
+			Assert::AreEqual(index, 2);
+		}
+
+
+		TEST_METHOD(Search3Test7)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, -1, LessThan, &index), NotFound);
+		}
+		TEST_METHOD(Search3Test8)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 4, LessThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 2);
+		}
+		TEST_METHOD(Search3Test9)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 8, Equals, &index), FoundExact);
+			Assert::AreEqual(index, 0);
+		}
+		TEST_METHOD(Search3Test10)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 5, GreaterThanEquals, &index), FoundGreater);
+			Assert::AreEqual(index, 1);
+
+		}
+		TEST_METHOD(Search3Test11)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 2, GreaterThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 3);
+		}
+		TEST_METHOD(Search3Test12)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 9, GreaterThan, &index), NotFound);
+		}
+
+	};
+
+	TEST_CLASS(Search4Test)
+	{
+	public:
+		
+		TEST_METHOD(Search4Test1)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, -1, LessThanEquals, &index), NotFound);
+		}
+		TEST_METHOD(Search4Test2)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, LessThan, &index), NotFound);
+		}
+		TEST_METHOD(Search4Test3)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 0, Equals, &index), FoundExact);
+			Assert::AreEqual(index, 0);
+		}
+		TEST_METHOD(Search4Test4)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 1, Equals, &index), NotFound);
+		}
+		TEST_METHOD(Search4Test5)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 2, GreaterThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 1);
+		}
+		TEST_METHOD(Search4Test6)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test1, sizeof(test1)/sizeof(test1[0]), 1, 2, GreaterThan, &index), FoundGreater);
+			Assert::AreEqual(index, 2);
+		}
+
+
+		TEST_METHOD(Search4Test7)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, -1, LessThan, &index), NotFound);
+		}
+		TEST_METHOD(Search4Test8)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 4, LessThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 2);
+		}
+		TEST_METHOD(Search4Test9)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 8, Equals, &index), FoundExact);
+			Assert::AreEqual(index, 0);
+		}
+		TEST_METHOD(Search4Test10)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 5, GreaterThanEquals, &index), FoundGreater);
+			Assert::AreEqual(index, 1);
+
+		}
+		TEST_METHOD(Search4Test11)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 2, GreaterThanEquals, &index), FoundExact);
+			Assert::AreEqual(index, 3);
+		}
+		TEST_METHOD(Search4Test12)
+		{
+			int index = -1;
+			Assert::AreEqual<int>(Search2(test2, sizeof(test2)/sizeof(test2[0]), 0, 9, GreaterThan, &index), NotFound);
+		}
 
 	};
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "Common.h"
 
+// Iterate up to where needed
+
 // If ( asc and < ) or (des and > ) then go forward and stop at first non true
 // Else go backward, ( asc and > ) or (des and < )
 SearchResult Search2(
