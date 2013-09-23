@@ -40,6 +40,7 @@ bool Compare(int item, int key, SearchType type, SearchResult& result, bool& bSt
 		}
 	case Equals:
 		{
+			// Non optimal
 			if (item == key)
 			{
 				bRes = true;

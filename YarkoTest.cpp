@@ -9,6 +9,7 @@
 #include "Search2.h"
 #include "Search3.h"
 #include "Search4.h"
+//#include "Search5.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -22,6 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	clock_t t, tsum = 0;
 
 	const int cnIter = 1;
+	printf ("\n<<< GreaterThan >>>\n");
 	for (int i=0; i<cnIter; i++)
 	{
 		t = clock();
@@ -55,11 +57,54 @@ int _tmain(int argc, _TCHAR* argv[])
 		t = clock() - t;
 		tsum += t;
 		printf ("Search4 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+		/*
+		t = clock();
+		Search5(test3, cnCount, 1, 50000000, GreaterThan, &index);
+// 		Search5(test3, cnCount, 1, 50000000, GreaterThanEquals, &index);
+// 		Search5(test3, cnCount, 1, 50000000, LessThan, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search5 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);*/
 	}
+
+	printf ("\n<<< Equals >>>\n");
+	for (int i=0; i<cnIter; i++)
+	{
+		t = clock();
+		Search1(test3, cnCount, 1, 50000000, Equals, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search1 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search2(test3, cnCount, 1, 50000000, Equals, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search2 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search3(test3, cnCount, 1, 50000000, Equals, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search3 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+
+		t = clock();
+		Search4(test3, cnCount, 1, 50000000, Equals, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search4 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+		/*
+		t = clock();
+		Search5(test3, cnCount, 1, 50000000, Equals, &index);
+		t = clock() - t;
+		tsum += t;
+		printf ("Search5 took %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);*/
+	}
+
 	delete[] test3;
 //	printf ("Average for %d iterations is %f clicks (%f seconds).\n",cnIter, (float)tsum/cnIter, ((float)tsum/cnIter)/CLOCKS_PER_SEC);
 
-	printf("OK\n");
+	printf("\nOK\n");
 
 	return 0;
 }
