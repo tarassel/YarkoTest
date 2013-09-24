@@ -3,9 +3,34 @@
 #include <set>
 #include <functional>
 
-// Iterate up to where needed
+// Sasha type
 
-// 
+int gnShift = 0;
+
+const int GetElement(const int * const items, const int nPos)
+{
+	if (gnShift != 0)
+		return items[gnShift - nPos];
+	else
+		return items[nPos];
+}
+
+// Operates with ascending array
+// Return best <= for searched key (-1 or last element position)
+int SearchLowerBound(const int * const items, const int stopPos, const int key)
+{
+	int i = 0, nCounter = 0;
+	while ( (i != stopPos) && (GetElement(items, i) <= key) )
+	{
+		i += 1;
+		++nCounter;
+	}
+
+	printf ("Iterations taken %d.\n", nCounter);
+
+	return i - 1;
+}
+
 SearchResult Search5(
 	const int * const items,
 	const int n_items,
@@ -16,128 +41,85 @@ SearchResult Search5(
 {
 	// Check if type is correct
 
-	std::less<int>;
-
-
-	std::set<int> coll;
-
-	for (int i=0; i<n_items; i++)
-		coll.insert(items[i]);
-
-	bool bContinue = true;
-	std::set<int>::const_iterator pos = coll.begin();
-
-	while (bContinue && pos != coll.end())
-	{
-		bContinue = iterate();
-		pos++;
-	}
-
-
-
-
-	int nCounter = 0;
-	bool bStop = false;
-	int foundPosLast = -1;
-	int i, increment, stopPos;
-
-	if ( ( ( ascending > 0 ) && (type == LessThan || type == LessThanEquals) ) ||
-		 ( ( ascending == 0 ) && (type == GreaterThan || type == GreaterThanEquals) ) )
-	{
-		i = 0;
-		increment = 1;
-		stopPos = n_items;
-	}
-	else
-	{
-		i = n_items - 1;
-		increment = -1;
-		stopPos = -1;
-	}
 	SearchResult result = NotFound;
 
-	while (i != stopPos && !bStop)
-	{
-		nCounter++;
-		switch (type)
-		{
-		case LessThan:
-			{
-				if (items[i] < key)
-				{
-					foundPosLast = i;
-					result = FoundLess;
-				}
-				else
-					bStop = true;
-				break;
-			}
-		case LessThanEquals:
-			{
-				if (items[i] < key)
-				{
-					foundPosLast = i;
-					result = FoundLess;
-				}
-				else if (items[i] == key)
-				{
-					foundPosLast = i;
-					result = FoundExact;
-					bStop = true;
-				}
-				else
-					bStop = true;
-				break;
-			}
-		case Equals:
-			{
-				if (items[i] == key)
-				{
-					foundPosLast = i;
-					result = FoundExact;
-					bStop = true;
-				}
-				else
-					result = NotFound;
-				break;
-			}
-		case GreaterThan:
-			{
-				if (items[i] > key)
-				{
-					foundPosLast = i;
-					result = FoundGreater;
-				}
-				else
-					bStop = true;
-				break;
-			}
-		case GreaterThanEquals:
-			{
-				if (items[i] > key)
-				{
-					foundPosLast = i;
-					result = FoundGreater;
-				}
-				else if (items[i] == key)
-				{
-					foundPosLast = i;
-					result = FoundExact;
-					bStop = true;
-				}
-				else
-					bStop = true;
-				break;
-			}
-		}
+	if ( ascending > 0 )
+		gnShift = 0;
+	else
+		gnShift = n_items - 1;
 
-		i += increment;
+	int nLowerBoundPos = SearchLowerBound(items, n_items, key);
+
+
+	switch (type)
+	{
+	case LessThan:
+		{
+			if (nLowerBoundPos > 0)
+			{
+				*index = GetElement(items, nLowerBoundPos) < key ? nLowerBoundPos : nLowerBoundPos - 1;
+				result = FoundLess;
+			}
+			else if (nLowerBoundPos == 0 && GetElement(items, nLowerBoundPos) < key)
+			{
+				*index = nLowerBoundPos;
+				result = FoundLess;
+			}
+			break;
+		}
+	case LessThanEquals:
+		{
+			if (nLowerBoundPos >= 0)
+			{
+				*index = nLowerBoundPos;
+				result = GetElement(items, nLowerBoundPos) == key ? FoundExact : FoundLess;
+			}
+			break;
+		}
+	case Equals:
+		{
+			if (nLowerBoundPos >= 0 && GetElement(items, nLowerBoundPos) == key)
+			{
+				*index = nLowerBoundPos;
+				result = FoundExact;
+			}
+			break;
+		}
+	case GreaterThan:
+		{
+			if (nLowerBoundPos >= 0 && nLowerBoundPos < n_items - 1)
+			{
+				*index = nLowerBoundPos + 1;
+				result = FoundGreater;
+			}
+			break;
+		}
+	case GreaterThanEquals:
+		{
+			if (nLowerBoundPos >= 0 && nLowerBoundPos < n_items - 1)
+			{
+				if (GetElement(items, nLowerBoundPos) == key)
+				{
+					*index = nLowerBoundPos;
+					result = FoundExact;
+				}
+				else
+				{
+					*index = nLowerBoundPos + 1;
+					result = FoundGreater;
+				}
+			}
+			else if (nLowerBoundPos == n_items - 1 && GetElement(items, nLowerBoundPos) == key)
+			{
+				*index = nLowerBoundPos;
+				result = FoundExact;
+			}
+			break;
+		}
 	}
 
-	printf ("Iterations taken %d.\n", nCounter);
-
-	if ( foundPosLast != -1)
-		*index = foundPosLast;
+	if (gnShift != 0)
+		*index = gnShift - *index;
 	
 	return result;
 }
